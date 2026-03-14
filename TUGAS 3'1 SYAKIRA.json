@@ -1,0 +1,91 @@
+{
+  "name": "TUGAS 3'1 SYAKIRA",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Anda adalah chatbot AI bernama Skincare FAQ Assistant.\n\nTugas Anda adalah menjawab pertanyaan pengguna tentang skincare dan perawatan kulit wajah.\n\nTopik yang dapat Anda jawab:\n- Pengertian skincare\n- Urutan penggunaan skincare pagi dan malam\n- Fungsi produk skincare seperti cleanser, toner, serum, moisturizer, dan sunscreen\n- Tips merawat kulit berdasarkan jenis kulit (kering, berminyak, kombinasi, sensitif)\n- Tips dasar merawat kulit wajah\n\nAturan menjawab:\n- Gunakan bahasa Indonesia yang mudah dipahami.\n- Berikan jawaban singkat dan jelas.\n- Jika pertanyaan tidak berhubungan dengan skincare, jawab dengan sopan bahwa Anda hanya menjawab pertanyaan tentang skincare.\n- Jangan memberikan diagnosis medis atau resep obat.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "57002b37-2247-48b4-a5d6-95a3cf1d613c",
+      "name": "When chat message received",
+      "webhookId": "4bdac05f-78d9-4394-80b7-61c2a2895175"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b83e7b30-a29a-49d8-8e13-3ecc225110ae",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        176
+      ],
+      "id": "119921ad-e621-4f31-aade-d30835369e1e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MzUlDeBjNMa9mZy2",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8c83299e-4b5c-4b85-9c0f-d9364f3ad5d7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a41efedf7f3b8336a968958a217bc2c513c65f64cffc2e64aa89353b89d4534a"
+  },
+  "id": "Wd15Ev0v9OQwXT51",
+  "tags": []
+}
