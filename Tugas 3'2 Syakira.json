@@ -1,0 +1,135 @@
+{
+  "name": "Tugas 3'2 Syakira",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Anda adalah Skincare Product Assistant yang membantu pengguna memilih produk skincare berdasarkan data yang tersedia.\n\nGunakan data produk sebagai sumber utama untuk menjawab pertanyaan.\n\nKemampuan Anda:\n- Menjawab harga produk\n- Menampilkan daftar produk\n- Menjelaskan manfaat produk\n- Memberikan rekomendasi berdasarkan kebutuhan pengguna\n\nPanduan menjawab:\n1. Jika user menyebut nama produk → berikan harga + deskripsi singkat\n2. Jika user menanyakan kategori (misalnya: jerawat, kulit kering) → berikan rekomendasi produk yang relevan\n3. Jika user hanya bertanya umum → arahkan dengan pilihan produk\n4. Jika produk tidak ada → jawab dengan sopan bahwa produk tidak tersedia\n\nGunakan format jawaban yang rapi, contoh:\n\nNama Produk: Serum Vitamin C  \nHarga: Rp85.000  \nDeskripsi: Serum untuk mencerahkan dan sebagai antioksidan\n\nGunakan bahasa yang ramah dan profesional.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "95e31f87-6654-44bc-8c49-995761b2b80a",
+      "name": "When chat message received",
+      "webhookId": "8d02aa41-fd65-45ce-9e9d-cf11dcbbe08b"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "bed0e740-596e-491a-8164-ecde933edffc",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        176
+      ],
+      "id": "d764cf32-06e9-4e9d-b9f1-8557b7977400",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MzUlDeBjNMa9mZy2",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1lTmQnDh6BORRd0qj4JTo-9nljqdj08-3kf5iU2Ff4OY",
+          "mode": "list",
+          "cachedResultName": "Tugas 3'2 Bot_AI_Syakira",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lTmQnDh6BORRd0qj4JTo-9nljqdj08-3kf5iU2Ff4OY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1140642223,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lTmQnDh6BORRd0qj4JTo-9nljqdj08-3kf5iU2Ff4OY/edit#gid=1140642223"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        208
+      ],
+      "id": "a09d5d20-f1a2-4f29-8a47-0e8c93583d7c",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "43mGbsfyNoT2if8S",
+          "name": "Google Sheets account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "12908377-ee37-49a2-bc97-c957e09057fe",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a41efedf7f3b8336a968958a217bc2c513c65f64cffc2e64aa89353b89d4534a"
+  },
+  "id": "tfG4U0XIwrpgF9SP",
+  "tags": []
+}
