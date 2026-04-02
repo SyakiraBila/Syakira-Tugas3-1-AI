@@ -1,0 +1,159 @@
+{
+  "name": "Tugas 3'3 Syakira",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Anda adalah Skincare Product Assistant yang membantu pengguna memilih produk skincare berdasarkan data yang tersedia.\n\nGunakan data produk sebagai sumber utama untuk menjawab pertanyaan.\n\nKemampuan Anda:\n- Menjawab harga produk\n- Menampilkan daftar produk\n- Menjelaskan manfaat produk\n- Memberikan rekomendasi berdasarkan kebutuhan pengguna\n\nPanduan menjawab:\n1. Jika user menyebut nama produk → berikan harga + deskripsi singkat\n2. Jika user menanyakan kategori (misalnya: jerawat, kulit kering) → berikan rekomendasi produk yang relevan\n3. Jika user hanya bertanya umum → arahkan dengan pilihan produk\n4. Jika produk tidak ada → jawab dengan sopan bahwa produk tidak tersedia\n\nGunakan format jawaban yang rapi, contoh:\n\nNama Produk: Serum Vitamin C  \nHarga: Rp85.000  \nDeskripsi: Serum untuk mencerahkan dan sebagai antioksidan\n\nGunakan bahasa yang ramah dan profesional.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "44feea13-60cb-4b7e-97bf-0d988170960e",
+      "name": "When chat message received",
+      "webhookId": "7ac4a392-2a90-4ca6-a08f-d182d92b8865"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=Anda adalah Skincare Product Assistant yang membantu pengguna memilih produk skincare berdasarkan data yang tersedia.\n\nGunakan data produk sebagai sumber utama untuk menjawab pertanyaan.\n\nKemampuan Anda:\n- Menjawab harga produk\n- Menampilkan daftar produk\n- Menjelaskan manfaat produk\n- Memberikan rekomendasi berdasarkan kebutuhan pengguna\n\nPanduan menjawab:\n1. Jika user menyebut nama produk → berikan harga + deskripsi singkat\n2. Jika user menanyakan kategori (misalnya: jerawat, kulit kering) → berikan rekomendasi produk yang relevan\n3. Jika user hanya bertanya umum → arahkan dengan pilihan produk\n4. Jika produk tidak ada → jawab dengan sopan bahwa produk tidak tersedia\n\nGunakan format jawaban yang rapi, contoh:\n\nNama Produk: Serum Vitamin C  \nHarga: Rp85.000  \nDeskripsi: Serum untuk mencerahkan dan sebagai antioksidan\n\nGunakan bahasa yang ramah dan profesional."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "832924d7-4496-4234-b8b6-7dc372fcb950",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        192
+      ],
+      "id": "3a976c66-db88-4318-a8da-b1e703ccb414",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GNJYJdeK8MrpmPtZ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        304
+      ],
+      "id": "c091fb50-820a-490e-b736-bfc917e2a8bd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15cv7n8VXpmUMlj-W40uwa-T9P9QZMScBY9q83N867-w",
+          "mode": "list",
+          "cachedResultName": "Tugas 3 AI SYAKIRA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15cv7n8VXpmUMlj-W40uwa-T9P9QZMScBY9q83N867-w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 551682057,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15cv7n8VXpmUMlj-W40uwa-T9P9QZMScBY9q83N867-w/edit#gid=551682057"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        176
+      ],
+      "id": "e5cb4640-af61-4c9b-a900-c516040365d5",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "bcBfFfYk8PLC6cSf",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5e760820-c2da-48c7-86d6-56b5e42cab3e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea9c2f016c117720829f3bd9e854f5c9eeb97e0d4492e0c69c2b896571955f7f"
+  },
+  "id": "yC8zd7mjv5QvuiAg",
+  "tags": []
+}
